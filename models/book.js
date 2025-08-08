@@ -20,7 +20,7 @@ const bookSchema= new mongoose.Schema({
     },
     publishedYear:{
         type: Number,
-        requires:[true, "L'année de publication est requise"]
+        required:[true, "L'année de publication est requise"]
     },
     publisher:{
         type: String,
@@ -28,7 +28,7 @@ const bookSchema= new mongoose.Schema({
     },
     pages:{
         type: Number,
-        requires:[true, "Le nombre de page est requis"]
+        required:[true, "Le nombre de page est requis"]
     },
     language:{
         type: String,
@@ -48,7 +48,7 @@ const bookSchema= new mongoose.Schema({
     },
     description: String
 })
-//Index
-bookSchema.index({genre: 1})
+//Index qui ne servent à rien
+bookSchema.index({title: 1, description: 1})
 
 module.exports=mongoose.model("Book", bookSchema)

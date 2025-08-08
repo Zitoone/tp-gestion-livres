@@ -27,7 +27,7 @@ app.get('/', (req,res)=>{
 
 /*     app.get('/search', (req,res)=>{
         const { q } = req.query;
-        res.send(q)
+        res.send
     }) */
 
 app.listen(port, ()=>console.log('Serveur démarré sur http://localhost:3000'))

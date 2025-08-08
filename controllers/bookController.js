@@ -1,16 +1,16 @@
 const Books=require('../models/book')
 const { put } = require('../routes/books')
 
-/* const { q } = req.query; */
 
-/* exports.getAllBooks=async(req,res)=>{
+
+exports.getAllBooks=async(req,res)=>{
     try{
         const books=await Books.find()
         res.json(books)
     }catch(err){
         res.status(500).json({message: err.message})
     }
-} */
+}
 
 //fonction pour récupérer les livres avec pagination
 exports.getBooks=async(req,res,next)=>{
@@ -32,6 +32,27 @@ exports.getBooks=async(req,res,next)=>{
         res.status(500).json({message: err.message})
     }
 }
+
+
+exports.getBooks = async (req, res) => {
+    try {
+        const { q } = req.query;
+        const regex = new RegExp(q, 'i') // insensible à la casse
+
+        const books = await Books.find({
+            $or: [
+                { title: regex },
+                { author: regex },
+                { description: regex },
+                { isbn: regex },
+            ]
+        });
+        return res.status(200).json({books})
+    } catch (err) {
+        res.status(500).json({ message: err.message })
+    }
+};
+
 
 exports.createNewBook=async(req,res)=>{
         const {title, author, isbn, genre, publishedYear, publisher, pages, language, price, stock, available, description}=req.body
@@ -78,7 +99,7 @@ exports.updateBook=async(req,res)=>{
             book.genre=req.body.genre
         }
         if(req.body.publishedYear != null){
-           book.publishedYear=req.body.publishedYear
+            book.publishedYear=req.body.publishedYear
         }
         if(req.body.publisher != null){
             book.publisher=req.body.publisher
